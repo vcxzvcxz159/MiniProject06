@@ -40,7 +40,7 @@
   					#{divyRequest:VARCHAR}, 
   					'1', 
   					SYSDATE, 
-  					to_date(#{divyDate:DATE}, 'yyyy-mm-dd'), 
+  					to_date(#{divyDate:DATE}, 'yy-mm-dd'), 
   					#{quantity} 
   				)
   	</insert>

@@ -125,7 +125,7 @@ function fncAddPurchase() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${purchase.buyer.userId}</td>
-		<input type="hidden" name="buyerId" value="${purchase.buyer.userId}" />
+
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -151,7 +151,7 @@ function fncAddPurchase() {
 		<td class="ct_write01">
 			<select 	name="quantity"		class="ct_input_g" 
 							style="width: 100px; height: 19px" maxLength="20">
-				<c:forEach var="i" begin="1" end="${product.quantity}">
+				<c:forEach var="i" begin="1" end="${purchase.quantity + purchase.purchaseProd.quantity}">
 					<option value="${i}">${i}개</option>
 				</c:forEach>
 			</select>
@@ -187,7 +187,7 @@ function fncAddPurchase() {
 		<td width="104" class="ct_write">구매자주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverAddr" class="ct_input_g" 
+			<input 	type="text" name="divyAddr" class="ct_input_g" 
 							style="width: 100px; height: 19px" maxLength="20" 	value="${purchase.buyer.addr}" />
 		</td>
 	</tr>
@@ -198,7 +198,7 @@ function fncAddPurchase() {
 		<td width="104" class="ct_write">구매요청사항</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input		type="text" name="receiverRequest" 	class="ct_input_g" 
+			<input		type="text" name="divyRequest" 	class="ct_input_g" 
 							style="width: 100px; height: 19px" maxLength="20" />
 		</td>
 	</tr>
@@ -209,7 +209,7 @@ function fncAddPurchase() {
 		<td width="104" class="ct_write">배송희망일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			<input 	type="text" readonly="readonly" name="receiverDate" class="ct_input_g" 
+			<input 	type="text" readonly="readonly" name="divyDate" class="ct_input_g" 
 							style="width: 100px; height: 19px" maxLength="20"/>
 			<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
 						onclick="show_calendar('document.addPurchase.receiverDate', document.addPurchase.receiverDate.value)"/>
