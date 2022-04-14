@@ -42,12 +42,11 @@ public class PurchaseServiceImpl implements PurchaseService{
 	/// Method
 	@Override
 	public int addPurchase(Purchase purchase) throws Exception {
-//		Product product = prodDAO.findProduct(purchase.getPurchaseProd().getProdNo());
-//		purchase.setPurchaseProd(product);
+		Product product = prodDAO.findProduct(purchase.getPurchaseProd().getProdNo());
 		
 		// 수량 변경
-//		product.setQuantity(product.getQuantity() - purchase.getQuantity());
-//		prodDAO.updateProduct(product);
+		product.setQuantity(product.getQuantity() - purchase.getQuantity());
+		prodDAO.updateProduct(product);
 		
 		return purchaseDao.insertPurchase(purchase);
 	}
