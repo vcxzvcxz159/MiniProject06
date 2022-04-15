@@ -15,7 +15,7 @@ public interface PurchaseService {
 	
 	public Map<String, Object> getSaleList(Search search)throws Exception;
 	
-	public int updatePurchase(Purchase purchase)throws Exception;
+	public Purchase updatePurchase(Purchase purchase)throws Exception;
 	
 	public void UpdateTranCode(Purchase purchase)throws Exception;
 }

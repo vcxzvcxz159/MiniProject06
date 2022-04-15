@@ -57,7 +57,7 @@ public class PurchaseServiceImpl implements PurchaseService{
 	}
 	
 	@Override
-	public int updatePurchase(Purchase purchase)throws Exception {
+	public Purchase updatePurchase(Purchase purchase)throws Exception {
 		Purchase oldPurchase = new Purchase();
 		oldPurchase = purchaseDao.findPurchase(purchase.getTranNo());
 		int quantityDif = purchase.getQuantity() -  oldPurchase.getQuantity();
@@ -66,7 +66,9 @@ public class PurchaseServiceImpl implements PurchaseService{
 		Product product = prodDAO.findProduct(purchase.getPurchaseProd().getProdNo());
 		product.setQuantity(product.getQuantity() - quantityDif);
 		prodDAO.updateProduct(product);
-		return purchaseDao.updatePurchase(purchase);
+		
+		purchaseDao.updatePurchase(purchase);
+		return purchaseDao.findPurchase(purchase.getTranNo());
 	}
 
 	@Override
@@ -78,8 +80,6 @@ public class PurchaseServiceImpl implements PurchaseService{
 	public Map<String, Object> getSaleList(Search search)throws Exception {
 		return purchaseDao.getSaleList(search);
 	}
-
-
 
 	@Override
 	public void UpdateTranCode(Purchase purchase)throws Exception {

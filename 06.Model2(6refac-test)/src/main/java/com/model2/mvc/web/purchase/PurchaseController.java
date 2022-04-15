@@ -161,72 +161,73 @@ public class PurchaseController {
 		return modelAndView;
 	}
 	
-//	@RequestMapping("/loginView.do")
-//	public String loginView() throws Exception{
-//		
-//		System.out.println("/loginView.do");
-//
-//		return "redirect:/user/loginView.jsp";
-//	}
-//	
-//	@RequestMapping("/login.do")
-//	public String login(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
-//		
-//		System.out.println("/login.do");
-//		//Business Logic
-//		User dbUser=userService.getUser(user.getUserId());
-//		
-//		if( user.getPassword().equals(dbUser.getPassword())){
-//			session.setAttribute("user", dbUser);
-//		}
-//		
-//		return "redirect:/index.jsp";
-//	}
-//	
-//	@RequestMapping("/logout.do")
-//	public String logout(HttpSession session ) throws Exception{
-//		
-//		System.out.println("/logout.do");
-//		
-//		session.invalidate();
-//		
-//		return "redirect:/index.jsp";
-//	}
-//	
-//	@RequestMapping("/checkDuplication.do")
-//	public String checkDuplication( @RequestParam("userId") String userId , Model model ) throws Exception{
-//		
-//		System.out.println("/checkDuplication.do");
-//		//Business Logic
-//		boolean result=userService.checkDuplication(userId);
-//		// Model 과 View 연결
-//		model.addAttribute("result", new Boolean(result));
-//		model.addAttribute("userId", userId);
-//
-//		return "forward:/user/checkDuplication.jsp";
-//	}
-//	
-//	@RequestMapping("/listUser.do")
-//	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
-//		
-//		System.out.println("/listUser.do");
-//		
-//		if(search.getCurrentPage() ==0 ){
-//			search.setCurrentPage(1);
-//		}
-//		search.setPageSize(pageSize);
-//		
-//		// Business logic 수행
-//		Map<String , Object> map=userService.getUserList(search);
-//		
-//		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-//		System.out.println(resultPage);
-//		
-//		// Model 과 View 연결
-//		model.addAttribute("list", map.get("list"));
-//		model.addAttribute("resultPage", resultPage);
-//		model.addAttribute("search", search);
-//		
-//		return "forward:/user/listUser.jsp";
-//	}
+	@RequestMapping("/updatePurchase.do")
+	public ModelAndView updatePurchase(@ModelAttribute("purchase") Purchase purchase,
+								 	   @ModelAttribute("product") Product product,
+								 	   HttpSession session) throws Exception{
+		
+		System.out.println("/updatePurchase.do");
+		
+		// B/L
+		product = productService.getProduct(product.getProdNo());
+		purchase = purchaseService.getPurchase(purchase.getTranNo());
+		
+		purchase.setPurchaseProd(product);
+		purchase.setBuyer((User)session.getAttribute("user"));
+		
+		System.out.println("updatePurchase.do purchase : " + purchase);
+		
+		// Model 과 View 연결
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("purchase", purchase);
+				
+		modelAndView.setViewName("forward:/purchase/updatePurchase.jsp");
+				
+		return modelAndView;
+	}
+	
+	@RequestMapping("/updatePurchaseView.do")
+	public ModelAndView updatePurchaseView(@ModelAttribute("purchase") Purchase purchase,
+							  @ModelAttribute("prodcut") Product prdocut,
+							  HttpSession session) throws Exception{
+		
+		System.out.println("/updatePurchaseView.do");
+		
+		
+		//Business Logic
+		purchase.setBuyer((User)session.getAttribute("user"));
+		purchase.setPurchaseProd(prdocut);
+		
+		System.out.println("updatePurchaseView purchase : " + purchase);
+		
+		purchase = purchaseService.updatePurchase(purchase);
+		
+		
+		// Model 과 View 연결
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("purchase", purchase);
+		
+		modelAndView.setViewName("forward:/purchase/updatePurchaseView.jsp");
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("/updateTranCode.do")
+	public ModelAndView updateTranCode(@ModelAttribute("product") Product product,
+									   @ModelAttribute("purchase") Purchase purchase,
+									   @RequestParam("menu") String menu ) throws Exception{
+		
+		System.out.println("/updateTranCode.do");
+		
+		//Business Logic
+		purchase.setPurchaseProd(product);
+		purchaseService.UpdateTranCode(purchase);
+		
+		// Model 과 View 연결
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("menu", menu);
+		modelAndView.setViewName("forward:/listProduct.do");
+		
+		return modelAndView;
+	}
 }
